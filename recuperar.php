@@ -16,7 +16,7 @@
         $user = getValor("user","email",$correo);
 
         $token = generaTokenPass($correo);
-        $url = "http://" . $_SERVER["SERVER_NAME"] . "SGI/restablecer.html?user=" . $user . "&token=" . $token;
+        $url = "http://" . $_SERVER["SERVER_NAME"] . "/SGI/restablecer.php?user=" . $user . "&token=" . $token;
 
         $asunto = "Recuperar Contraseña";
         $cuerpo = "Hola $user, Has solicitado el restablecimiento de tu contraseña. Para restablecerla, haz click en el siguiente enlace o copia y pega el enlace en tu navegador web: $url";

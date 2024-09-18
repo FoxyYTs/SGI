@@ -68,17 +68,37 @@
             return false;
         }
     }
+    function encriptar($clave) {
+        $pass = "";
+        $contrasena = md5($clave);
+        $arr2 = str_split($contrasena);
+
+        for ($i = 0; $i < strlen($contrasena); $i++) {
+            $pass = $pass . $arr2[$i] . "y" . $i * 3;
+        }
+        return $pass;
+    }
+
     function verificarTokenPass($user,$token) {
         include_once("db.php");
         $conectar=conn();
 
-        $stmt = mysqli_prepare($conectar, "SELECT * FROM acceso WHERE user = ? AND token_password = ? AND request_password = '1' LIMIT 1");
-        mysqli_stmt_bind_param($stmt, "ss", $user, $token);
+        $stmt = mysqli_prepare($conectar, "SELECT *  FROM acceso WHERE user = ? AND token_password = ? AND request_password = '1' LIMIT 1");
+        mysqli_stmt_bind_param($stmt, "is", $user, $token);
         mysqli_stmt_execute($stmt);
         $resultado=mysqli_stmt_get_result($stmt) or trigger_error("Error: ",mysqli_error($conectar));
         $total=mysqli_num_rows($resultado);
 
         if ($total>0) {
-            $stmt->bind_result()
+            mysqli_stmt_bind_result($stmt,$token, $user);
+            $stmt->fetch();
+            if($activacion == 1){
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 ?>

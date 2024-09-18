@@ -1,11 +1,18 @@
 <?php
-    $correo = "jose_daza82222@elpoli.edu.co";
-    include_once("db.php");
-    $conectar=conn();
-    $stmt = mysqli_prepare($conectar, "UPDATE acceso SET request_password= '1', token_password = ? WHERE email = ?");
-    mysqli_stmt_bind_param($stmt, "s", $correo);
-    mysqli_stmt_execute($stmt);
-    $resultado=mysqli_stmt_get_result($stmt) or trigger_error("Error: ",mysqli_error($conectar));
-    $total=mysqli_num_rows($resultado);
-    echo $resultado->fetch_assoc()["user"];
+    $clave = "Password123@";
+    $validar = "7y01y3ey64y91y12ay151y187y216y242y273y307y331y363y39by42by451y482y51ey54ey570y60by633y66cy693y72by759y78cy81dy849y876y90cy93";
+    $pass = "";
+    $contrasena = md5($clave);
+    $arr2 = str_split($contrasena);
+
+    for ($i = 0; $i < strlen($contrasena); $i++) {
+        $pass = $pass . $arr2[$i] . "y" . $i * 3;
+    }
+    echo $pass;
+    if ($validar == $pass) {
+        echo "Clave correcta";
+    } else {
+        echo "Clave incorrecta";
+    }
+
 ?>
