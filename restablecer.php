@@ -7,6 +7,4 @@
 
     $user = $mysqli->real_scape_string($_GET['user']);
     $token = $mysqli->real_scape_string($_GET['token']);
-
-    if()
 ?>
