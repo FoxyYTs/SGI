@@ -6,13 +6,15 @@
     if(empty($_GET["user"]) || empty($_GET["token"])){
         header("Location: index.html");
     }
-    echo $_GET["user"];
-    echo $_GET["token"];
     $user = mysqli_real_escape_string($conectar, $_GET["user"]);
-    $token = mysqli_real_escape_string($conectar,$_GET["token"]);
+    $token = mysqli_real_escape_string($conectar, $_GET["token"]);
 
+    echo $token, $user;
 
-
+    if(!verificarTokenPass($user, $token)){
+        echo "Error al verificar";
+        exit;
+    }
 ?>
 
 <html lang="en">
@@ -49,6 +51,8 @@
                         </div>
                         <div class="card-body">
                             <form action="guarda_pass.php" method="post">
+                                <input type="hidden" id="user" name="user" value= <?php echo $user; ?>"/>
+                                <input type="hidden" id="token" name="token" value= <?php echo $token; ?>"/>
                                 <div class="form-group">
                                     <label for="password"><i class="fas fa-user"></i> Nueva Contraseña</label>
                                     <input type="password" class="form-control" name="password" placeholder="Confirmar Contraseña" required>

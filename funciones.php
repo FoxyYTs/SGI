@@ -69,30 +69,32 @@
         }
     }
     function encriptar($clave) {
-        $pass = "";
-        $contrasena = md5($clave);
-        $arr2 = str_split($contrasena);
+        $expRegPass = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%?&]{8,16}$/";
+        if (preg_match($expRegPass, $clave)) {
+            $pass = "";
+            $contrasena = md5($clave);
+            $arr2 = str_split($contrasena);
 
-        for ($i = 0; $i < strlen($contrasena); $i++) {
-            $pass = $pass . $arr2[$i] . "y" . $i * 3;
+            for ($i = 0; $i < strlen($contrasena); $i++) {
+                $pass = $pass . $arr2[$i] . "y" . $i * 3;
+            }
+            return $pass;
         }
-        return $pass;
     }
 
     function verificarTokenPass($user,$token) {
         include_once("db.php");
         $conectar=conn();
 
-        $stmt = mysqli_prepare($conectar, "SELECT *  FROM acceso WHERE user = ? AND token_password = ? AND request_password = '1' LIMIT 1");
-        mysqli_stmt_bind_param($stmt, "is", $user, $token);
+        $stmt = mysqli_prepare($conectar, "SELECT token_password FROM acceso WHERE user = ? AND request_password = '1' LIMIT 1");
+        mysqli_stmt_bind_param($stmt, "s", $user);
         mysqli_stmt_execute($stmt);
-        $resultado=mysqli_stmt_get_result($stmt) or trigger_error("Error: ",mysqli_error($conectar));
-        $total=mysqli_num_rows($resultado);
+        $resultado = mysqli_stmt_get_result($stmt);
 
-        if ($total>0) {
-            mysqli_stmt_bind_result($stmt,$token, $user);
-            $stmt->fetch();
-            if($activacion == 1){
+        if ($resultado->num_rows > 0) {
+            $row = $resultado->fetch_assoc();
+            $token_db = $row['token_password'];
+            if ($token_db === $token) {
                 return true;
             } else {
                 return false;
@@ -100,5 +102,16 @@
         } else {
             return false;
         }
+        mysqli_stmt_close($stmt);
+    }
+    function actualizarPass($pass,$user, $token) {
+        include_once("db.php");
+        $conectar=conn();
+
+        $stmt = mysqli_prepare($conectar,"UPDATE acceso SET pass = ?, request_password='0', token_password = '' WHERE user = ? AND token_password = ?");
+        $stmt->bind_param("sis", $pass, $user, $token);
+        $resultado = $stmt->execute();
+        $stmt->close();
+        return $resultado;
     }
 ?>
