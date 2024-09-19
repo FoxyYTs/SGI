@@ -9,7 +9,7 @@
     $user = mysqli_real_escape_string($conectar, $_GET["user"]);
     $token = mysqli_real_escape_string($conectar, $_GET["token"]);
 
-    echo $token, $user;
+    
 
     if(!verificarTokenPass($user, $token)){
         echo "Error al verificar";
@@ -55,11 +55,11 @@
                                 <input type="hidden" id="token" name="token" value= <?php echo $token; ?>"/>
                                 <div class="form-group">
                                     <label for="password"><i class="fas fa-user"></i> Nueva Contraseña</label>
-                                    <input type="password" class="form-control" name="password" placeholder="Confirmar Contraseña" required>
+                                    <input type="password" class="form-control" name="password" placeholder="Confirmar Contraseña" required autocomplete="off">
                                 </div>
                                 <div class="form-group">
                                     <label for="password"><i class="fas fa-user"></i> Nueva Contraseña</label>
-                                    <input type="password" class="form-control" name="password2" placeholder="Confirmar Contraseña" required>
+                                    <input type="password" class="form-control" name="password2" placeholder="Confirmar Contraseña" required autocomplete="off">
                                 </div>
                                 <div class="form-group text-center">
                                     <button type="submit" class="btn btn-success"><i class="fas fa-sign-in-alt"></i> Enviar Email</button>

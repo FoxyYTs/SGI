@@ -19,7 +19,7 @@
         $url = "http://" . $_SERVER["SERVER_NAME"] . "/SGI/restablecer.php?user=" . $user . "&token=" . $token;
 
         $asunto = "Recuperar Contraseña";
-        $cuerpo = "Hola $user, Has solicitado el restablecimiento de tu contraseña. Para restablecerla, haz click en el siguiente enlace o copia y pega el enlace en tu navegador web: $url";
+        $cuerpo = "Hola $user: <br /><br />Se ha solicitado un reinicio de contraseña <br/><br/>Para restaurar la contraseña visita la siguiente direccion: <a href='$url'>Recuperar Contraseña</a>"; 
         if(enviarCorreo($correo,$user,$asunto,$cuerpo)){
             echo 'Se Envio el Correo';
             echo "<META HTTP-EQUIV='REFRESH' CONTENT='0;URL=index.html'>";

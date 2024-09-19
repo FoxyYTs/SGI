@@ -54,13 +54,15 @@
         $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
             //Recipients
-        $mail->setFrom('bludu360@gmail.com', 'Mailer');
+        $mail->setFrom('bludu360@gmail.com', 'Laboratorio Integrado');
         $mail->addAddress($email, $nombre);   //Optional name
 
             //Content
-        $mail->isHTML(true);                                  //Set email format to HTML
+        
+        $mail->CharSet = 'UTF-8';                                  //Set email format to HTML
         $mail->Subject = $asunto;
         $mail->Body    = $cuerpo;
+        $mail->isHTML(true);   
 
         if($mail->send()){
             return true;
@@ -71,14 +73,8 @@
     function encriptar($clave) {
         $expRegPass = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%?&]{8,16}$/";
         if (preg_match($expRegPass, $clave)) {
-            $pass = "";
             $contrasena = md5($clave);
-            $arr2 = str_split($contrasena);
-
-            for ($i = 0; $i < strlen($contrasena); $i++) {
-                $pass = $pass . $arr2[$i] . "y" . $i * 3;
-            }
-            return $pass;
+            return $contrasena;
         }
     }
 
