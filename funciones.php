@@ -72,9 +72,14 @@
     }
     function encriptar($clave) {
         $expRegPass = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%?&]{8,16}$/";
+        $pass = "";
         if (preg_match($expRegPass, $clave)) {
             $contrasena = md5($clave);
-            return $contrasena;
+            $arr2 = str_split($contrasena);
+            for ($i = 0; $i < strlen($contrasena); $i++) {
+                $pass = $pass . $arr2[$i] . "y" . $i * 3;
+            }
+            return $pass;
         }
     }
 

@@ -1,13 +1,9 @@
 <?php
+    require 'funciones.php';
     $usuario = $_POST["user"];
     $clave = $_POST["pass"];
-    echo $clave;
-    $contrasena = md5($clave);
-    echo $contrasena;
-    $arr2 = str_split($contrasena);
-    for($i=0;$i<strlen($contrasena);$i++){
-        $pass=$pass.$arr2[$i]."y".$i*3;
-    }
+    echo "Password123@";
+    $pass = encriptar($clave);
     echo $pass;
     include_once("db.php");
     $conectar=conn();
